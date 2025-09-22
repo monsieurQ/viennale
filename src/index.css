@@ -1,0 +1,49 @@
+@import "tailwindcss";
+@theme {
+    --info-green: #C1C58D;
+    --info-bg: #CBCDB7;
+}
+
+html, body, #root {
+  height: 100%;
+  font-size:20px;
+}
+
+@font-face {
+    font-family: 'Jost';
+    src: url('/fonts/Jost-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Jost-Bold';
+    src: url('/fonts/Jost-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+p, h1, h2, h3, h4, h5, h6{
+    max-width:70ch;
+}
+
+.brutal-shadow {
+    box-shadow: 2px 2px 0 0 #1e2939;
+}
+
+path{
+    stroke:black; 
+    stroke-width:20px;
+    fill:none;
+}
+
+a[href] {
+    text-underline-position: under;
+    text-decoration: underline;  
+    font-weight:bold;
+    @apply text-orange-500 hover:text-orange-400; 
+}
+
+.taste{
+    border: 1px solid #1e2939;
+    box-shadow: -3px 3px 0 0 #4a5565;
+}

@@ -1,0 +1,1 @@
+export const Taste = ({str}:{str:string}) => <span className="bg-gray-300 mx-1 px-2 py-1 text-gray-800 rounded-sm rounded-bl-xl taste">{str}</span>
