@@ -13,13 +13,16 @@ interface AbsoluteSVG{
     children?: ReactNode
     paths?: AbsolutePath[]
     classes?: string 
+    containerId?: string 
 }
 
-export default function AbsoluteSVG({children, paths=[], classes}:AbsoluteSVG){
+export default function AbsoluteSVG({children, paths=[], classes, containerId=""}:AbsoluteSVG){
     const [viewBox, setViewBox] = useState({w:100, h:100})
     const [width, setWidth] = useState<number>(100)
     const [height, setHeight] = useState(100)
     const svgRef = useRef<SVGSVGElement>(null)
+    const [numImagesLoaded, setNumImagesLoaded] = useState(0)
+    const [numImages, setNumImages] = useState(0)
 
     function resizeViewBox(){
         if(!svgRef.current) return 
@@ -34,8 +37,28 @@ export default function AbsoluteSVG({children, paths=[], classes}:AbsoluteSVG){
     useEffect(() => {
         document.addEventListener('resize', resizeViewBox)
         setInterval(resizeViewBox, 200)
+
+        if(containerId)
+
         return () => document.removeEventListener('resize', resizeViewBox)
     }, [])
+
+    async function loadImages(containerId:string){
+        const container = document.getElementById('containerId')
+        if(!container) return 
+        const images = container.querySelectorAll('img')
+        setNumImages(images.length)
+
+        /* function imageLoaded(img:HTMLImageElement){
+            img.removeEventListener('load', imageLoaded)
+            let alreadyLoaded = numImagesLoaded
+            if(alreadyLoaded >= numImages)
+            setNumImagesLoaded(prev => prev+1)
+        } */
+
+        // images.forEach(img => img.addEventListener('load', () => imageLoaded(img)))
+    }   
+
 
     const pathsMemo:ReactNode[] = useMemo(() => {
         let tempPaths:ReactNode[] = []
@@ -58,7 +81,7 @@ export default function AbsoluteSVG({children, paths=[], classes}:AbsoluteSVG){
     }, [paths, width, height])
 
     return (
-        <svg viewBox={`0 0 ${width} ${height}`} className={clsx("absolute w-full h-full", classes)} ref={svgRef}>
+        <svg viewBox={`0 0 ${width} ${height}`} className={clsx("absolute w-full h-full overflow-visible pointer-events-none", classes)} ref={svgRef}>
             {!!children && children}
             {pathsMemo}
 
